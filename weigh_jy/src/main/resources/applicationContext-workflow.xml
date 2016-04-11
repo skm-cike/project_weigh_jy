@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<description>工作流配置</description>
+	
+	<bean id="wfDfProcessDao" class="com.est.workflow.processdefination.dao.WfDfprocessDaoImp" parent="baseDao">
+		<description>流程定义主表Dao</description>
+	</bean>
+	<bean id="wfDftaskDao" class="com.est.workflow.processdefination.dao.WfDftaskDaoImp" parent="baseDao">
+		<description>流程任务定义Dao</description>
+	</bean>
+	<bean id="wfDftaskconditionDao" class="com.est.workflow.processdefination.dao.WfDftaskconditionDaoImp" parent="baseDao">
+		<description>流程任务条件定义Dao</description>
+	</bean>	
+	<bean id="wfDftaskfieldDao" class="com.est.workflow.processdefination.dao.WfDftaskfieldDaoImp" parent="baseDao">
+		<description>流程任务字段定义Dao</description>
+	</bean>	
+	<bean id="wfDftaskuserDao" class="com.est.workflow.processdefination.dao.WfDftaskuserDaoImp" parent="baseDao">
+		<description>流程任务定义Dao</description>
+	</bean>
+	
+	<bean id="wfProcessinstanceDao" class="com.est.workflow.process.dao.WfProcessinstanceDaoImp" parent="baseDao">
+		<description>流程实例Dao</description>
+	</bean>
+	<bean id="wfApproveDao" class="com.est.workflow.process.dao.WfApproveDaoImp" parent="baseDao">
+		<description>流程任务批准Dao</description>
+	</bean>	
+	
+	<bean id="wfProcessDeployService" class="com.est.workflow.processdeploy.service.WfProcessDeployServiceImp">
+		<description>部署流程Service</description>
+		<property name="jbpmConfiguration" ref="jbpmConfiguration"></property>
+		<property name="wfDfprocessDao" ref="wfDfProcessDao"></property>
+	</bean>
+	
+
+	<bean id="wfProcessDefinationService" class="com.est.workflow.processdefination.service.WfDfprocessServiceImp">
+		<description>流程定义Service</description>
+		<property name="wfDfprocessDao" ref="wfDfProcessDao"></property>
+		<property name="wfDftaskDao" ref="wfDftaskDao"></property>
+	</bean>
+	
+	<bean id="wfDftaskuserService" class="com.est.workflow.processdefination.service.WfDftaskuserServiceImp">
+		<description>流程节点参与者定义Service</description>
+		<property name="wfDftaskuserDao" ref="wfDftaskuserDao"></property>
+	</bean>
+	
+	<bean id="wfDftaskfieldService" class="com.est.workflow.processdefination.service.WfDftaskfieldServiceImp">
+		<description>流程节点字段定义Service</description>
+		<property name="wfDftaskfieldDao" ref="wfDftaskfieldDao"></property>
+	</bean>
+	
+	
+	<bean id="wfDftaskconditionService" class="com.est.workflow.processdefination.service.WfDftaskconditionServiceImp">
+		<description>流程节点条件定义Service</description>
+		<property name="wfDftaskconditionDao" ref="wfDftaskconditionDao"></property>
+	</bean>
+	
+	<bean id="wfProcessService" class="com.est.workflow.process.service.WfProcessServiceImp">
+		<description>流程Service</description>
+		<property name="jbpmConfiguration" ref="jbpmConfiguration"></property>
+		<property name="wfDfprocessDao" ref="wfDfProcessDao"></property>
+		<property name="wfprocessinstanceDao" ref="wfProcessinstanceDao"></property>
+		<property name="wfApproveDao" ref="wfApproveDao"></property>
+		<property name="sysModuleDao" ref="sysModuleDao"></property>
+		<property name="wfDftaskDao" ref="wfDftaskDao"></property>
+	</bean>
+	
+	
+	<bean id="wfApproveService" class="com.est.workflow.process.service.WfApproveServiceImp">
+		<description>流程Service</description>
+		<property name="jbpmConfiguration" ref="jbpmConfiguration"></property>
+		<property name="wfDfprocessDao" ref="wfDfProcessDao"></property>
+		<property name="wfprocessinstanceDao" ref="wfProcessinstanceDao"></property>
+		<property name="wfApproveDao" ref="wfApproveDao"></property>
+		<property name="sysModuleDao" ref="sysModuleDao"></property>
+	</bean>
+	
+	<bean id="assignmentHandlerService" class="com.est.workflow.process.service.AssignmentHandlerServiceImp">
+		<description>流程任务分配Service</description>
+		<property name="wfProcessService" ref="wfProcessService"></property>
+		<property name="wfDftaskDao" ref="wfDftaskDao"></property>
+	</bean>
+	
+	
+	<bean id="createTaskInstanceCountersignHandlerService" class="com.est.workflow.process.service.CreateTaskInstanceCountersignHandler">
+		<description>会签任务分配处理Service</description>
+		<property name="wfProcessService" ref="wfProcessService"></property>
+		<property name="wfDftaskDao" ref="wfDftaskDao"></property>
+	</bean>
+	
+	<bean id="taskEndCountersignHandlerService" class="com.est.workflow.process.service.TaskEndCountersignHandler">
+		<description>会签任务结束处理Service</description>
+		<property name="wfProcessService" ref="wfProcessService"></property>
+	</bean>
+	
+	<bean id="conditionTaskHandlerService" class="com.est.workflow.process.service.ConditionTaskHandler">
+		<description>条件节点处理Service</description>
+		<property name="wfProcessService" ref="wfProcessService"></property>
+		<property name="wfDfprocessDao" ref="wfDfProcessDao"></property>
+		<property name="wfprocessinstanceDao" ref="wfProcessinstanceDao"></property>
+	</bean>	
+	
+</beans>

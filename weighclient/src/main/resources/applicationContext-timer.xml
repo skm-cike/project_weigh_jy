@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<description>定时器配置文件</description>
+	<!-- 定期任务 -->
+	<bean name="updownLoad" class="com.cike.weigh.client.process.UploadTask">
+		<description>定时维护erp相关数据及发送煤重煤质</description>
+	</bean>
+	<bean id="updownLoadTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<description>维护erp相关数据及发送煤重煤质</description>
+		<property name="timerTask">
+			<ref bean="updownLoad" />
+		</property>
+		<property name="period">
+			<value>10000</value>
+		</property>
+		<property name="delay">
+			<value>10000</value>
+		</property>
+	</bean>
+	
+	<!-- 启动定时期-->
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<description>Timer激活的定时器列表</description>
+		<property name="scheduledTimerTasks">
+			<list>
+			  	<ref bean="updownLoadTask"/> 
+			</list>
+		</property>
+	</bean>
+</beans>

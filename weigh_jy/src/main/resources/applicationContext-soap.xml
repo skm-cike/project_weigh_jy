@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:jaxws="http://cxf.apache.org/jaxws"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+					http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+					http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">  
+	<!-- 服务器 -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />    
+    <bean id="IWeighTransService" class="com.est.webservice.server.service.WeighTransServiceImp">
+    </bean>
+    <jaxws:endpoint id="weighjytrans" implementor="#IWeighTransService" address="/weighjytrans">
+    	<jaxws:inInterceptors>
+    		<ref bean="soapInInterceptor"/>
+    	</jaxws:inInterceptors>
+    	<jaxws:outInterceptors>
+        	<ref bean="soapOutInterceptor"/>
+   		</jaxws:outInterceptors>
+    </jaxws:endpoint> 
+    
+    <bean id="soapInInterceptor" class="com.est.webservice.server.interceptor.SoapInInterceptor">
+    </bean>
+    
+    <bean id="soapOutInterceptor" class="com.est.webservice.server.interceptor.SoapOutInterceptor">
+    </bean>
+    <!-- 
+	<bean id="soapclient" class="com.est.webservice.client.IExternalinterface"
+		factory-bean="clientFactory" factory-method="create" />
+	<bean id="clientFactory"
+		class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass" value="com.est.webservice.client.IExternalinterface"  />
+		<property name="address" value="http://127.0.0.1:8080/fuel_jt/interface"/>
+	</bean>
+	 -->
+	<!-- 客户端 -->
+	<!-- 
+	<bean id="soapSupport"
+		class="com.est.webservice.client.SoapSupport">
+		<property name="urls">
+			<map>
+				<entry key="erp_erpToFuel" value="http://127.0.0.1:8080/fuel_jt/interface/fueljyerp?wsdl"></entry>
+			</map>
+		</property>
+		<property name="jaxWsDynamicClientFactory" ref="jaxWsDynamicClientFactory"></property>
+		<property name="connectTimeout" value="3000"></property>
+		<property name="answerTimeout" value="3000"></property>
+	</bean>
+	<bean id="soapAccessor"
+		class="com.est.webservice.client.SoapAccessor">
+		<property name="soapSupport" ref="soapSupport"></property>
+	</bean>
+	<bean id="jaxWsDynamicClientFactory"
+		class="org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory" factory-method="newInstance">
+	</bean>
+	 -->
+</beans>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+					http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<!--  ><bean id="propertyConfigurer"
+		class="com.est.common.config.MyPropertyConfigurer">-->
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:application.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- MailSender used by EmailAdvice -->
+	<!--
+		<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}"/>
+		</bean>
+	-->
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" dependency-check="none">
+		<property name="driverClass" value="${datasource.driverClassName}"/>
+		<property name="jdbcUrl" value="${datasource.url}"/>
+		<property name="user" value="${datasource.username}"/>
+		<property name="password" value="${datasource.password}"/>
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}"/>
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}"/>
+		<property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}"/>
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"/>
+		<property name="maxStatements" value="${c3p0.maxStatements}"/>
+		<property name="numHelperThreads" value="${c3p0.numHelperThreads}"/>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:com/est/**/vo/*.hbm.xml</value>
+				<value>classpath*:/org/jbpm/**/*.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<!-- 
+					<prop key="hibernate.cache.use_second_level_cache">
+					${hibernate.cache.use_second_level_cache}
+					</prop>
+					<prop key="hibernate.cache.provider_class">
+					${hibernate.cache.provider_class}
+					</prop> -->
+				<prop key="hibernate.dialect">
+					com.est.common.hibernate.dialect.Oracle9iDialect
+					
+				</prop><!-- ${hibernate.dialect} -->
+				<prop key="hibernate.show_sql">
+					${hibernate.show_sql}
+				</prop>
+				<prop key="hibernate.jdbc.fetch_size">
+					${hibernate.jdbc.fetch_size}
+				</prop>
+				<prop key="hibernate.jdbc.batch_size">
+					${hibernate.jdbc.batch_size}
+				</prop>
+				
+				 <!-- jbpm 所使用的cache 不加会报org.hibernate.HibernateException: Could not instantiate cache implementation-->
+   				 <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置事务管理器bean,使用HibernateTransactionManager事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<!-- 为事务管理器注入sessionFactory" -->
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- Transaction template for Managers  事务代理工厂-->
+	<!-- <bean id="txProxyTemplate" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		
+		<property name="transactionManager" ref="transactionManager" />
+	
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="sav*">PROPAGATION_REQUIRED</prop>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="change*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean> -->
+	
+	<bean id="transactionInterceptor" 
+        class="org.springframework.transaction.interceptor.TransactionInterceptor"> 
+        <property name="transactionManager" ref="transactionManager" /> 
+        <!-- 配置事务属性 --> 
+        <property name="transactionAttributes"> 
+            <props> 
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="sav*">PROPAGATION_REQUIRED</prop>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="get*">PROPAGATION_REQUIRED</prop>
+				<prop key="find*">PROPAGATION_REQUIRED</prop>
+				<prop key="load*">PROPAGATION_REQUIRED</prop>
+				<prop key="change*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop> 
+            </props> 
+        </property> 
+    </bean>
+     
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"> 
+        <property name="beanNames"> 
+            <list> 
+                <value>*Service</value>
+                <value>*ServiceImp</value>
+                <value>*ServiceImpl</value>
+            </list> 
+        </property> 
+        <property name="interceptorNames"> 
+            <list> 
+                <value>transactionInterceptor</value> 
+            </list> 
+        </property> 
+    </bean>  
+	
+	<!-- 处理大字段 -->
+    <bean id="jbpmTypes" class="org.springframework.orm.hibernate3.TypeDefinitionBean"> 
+       <property name="typeName" value="string_max" /> 
+       <property name="typeClass" value="org.jbpm.db.hibernate.StringMax" /> 
+    </bean>
+	
+	
+	<bean id="jbpmConfiguration"    class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">          
+	   <property name="sessionFactory" ref="sessionFactory" />
+	   <property name="configuration" value="classpath:jbpm.cfg.xml" />
+    </bean> 
+    
+    <bean id="jbpmTemplate" class="org.springmodules.workflow.jbpm31.JbpmTemplate"> 
+   		<constructor-arg index="0" ref="jbpmConfiguration" />   
+   		<!-- <property name="jbpmConfiguration" ref="jbpmConfiguration"/>  -->
+  	</bean>
+  
+	
+	<bean id="baseDao" class="com.est.common.base.BaseDaoImp">
+		<description>基础dao</description>
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="TmpDirPath" class="java.lang.String">
+		<description>临时文件存放路径</description>
+		<constructor-arg>
+			<value>/tmp</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="DESKey" class="java.lang.String">
+	 	<description>sso DES公钥</description>
+	 	<constructor-arg>
+	 		<value>flxmtdes</value>
+	 	</constructor-arg>
+	 </bean>
+	 
+	 <bean id="DESIV" class="java.lang.String">
+	 	<description>sso DES向量</description>
+	 	<constructor-arg>
+	 		<value>flxmtIvS</value>
+	 	</constructor-arg>
+	 </bean>
+	 
+	<bean id="DES" class="com.est.common.ext.util.encrypt.Des">
+		<description>DES工具</description>
+		<constructor-arg index="0">
+			<ref bean="DESKey"/>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<ref bean="DESIV"/>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 事务配置 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+	<context:component-scan base-package="com.est.**.service" />
+	<context:component-scan base-package="com.est.**.dao" />
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+
+</beans>

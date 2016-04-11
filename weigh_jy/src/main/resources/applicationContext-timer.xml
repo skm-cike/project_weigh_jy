@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<description>定时器配置文件</description>
+	
+	
+	
+	
+	<bean name="clearTmpDir" class="com.est.common.ext.util.fileutil.FileClearCycleTimerTask">
+		<description>清除临时文件</description>
+	</bean>
+	
+	<bean id="clearTmpDirTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<description>清除临时文件定时任务设置</description>
+		<property name="timerTask">
+			<ref bean="clearTmpDir" />
+		</property>
+		<property name="period">
+			<!-- 2小时执行一次 -->
+			<value>7200000</value>
+		</property>
+		<property name="delay">
+			<!-- 任务第一次运行之前等待3分钟-->
+			<value>180000</value>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- 启动定时期-->
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<description>Timer激活的定时器列表</description>
+		<property name="scheduledTimerTasks">
+			<list>
+			  	<ref bean="clearTmpDirTask"/> 
+			</list>
+		</property>
+	</bean>
+	
+</beans>

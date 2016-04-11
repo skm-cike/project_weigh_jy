@@ -1,0 +1,38 @@
+/* grid颜色样式 */
+.x-grid-record-add table{
+	background:#EBE6B0 ;
+}
+.x-grid-record-modified table{
+	background:#84D879 ;
+}
+.x-grid-record-delete table{
+	background:#ddd ;
+}
+.x-grid-record-red table{   
+    color: #FF0000;   
+}
+.x-grid-record-green table{   
+    color: green;   
+}
+.x-grid-record-blue table{   
+    color: blue;   
+}
+.x-grid-record-orange table{   
+    color: #FF7F00;   
+}
+/* grid单元格数据过长时，自动换行*/
+.x-grid3-cell-inner{
+	white-space:normal;
+	overflow:visible;
+}
+
+.msg .x-box-mc {
+    font-size:13px;
+}
+#msg-div {
+    position:absolute;
+    left:0px;
+    top:10px;
+    width:200px;
+    z-index:20000;
+}

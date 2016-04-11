@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/apparatus.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/application.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/applicationContext-conf.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/applicationContext-soap.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/applicationContext-sysinit.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/applicationContext-timer.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/applicationContext-workflow.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/exceltplpath.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/filepath.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/fuelAnalyst.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/jbpm.cfg.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/jdbc.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/jdbcSqlServer.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/log4j.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/struts.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/struts.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/use.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weigh_jy/src/main/resources/xwork-conversion.properties" charset="UTF-8" />
+  </component>
+</project>

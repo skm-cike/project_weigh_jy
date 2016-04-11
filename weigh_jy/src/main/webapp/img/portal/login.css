@@ -1,0 +1,21 @@
+/* CSS Document */
+body{
+padding:0px;
+margin:0px auto 0px auto;
+text-align:center;
+font-size:12px;
+font-family:"ËÎÌו";
+color:#000000;
+background-color:#ffffff;
+}
+table{ margin:auto;}
+div{ margin:auto;}
+
+.table-1{ width:100%; height:100%; background-image:url(/fuel_jt/img/portal/backgroud1.gif); background-repeat:repeat-x; background-position:bottom;}
+
+a:link{text-decoration:none;color:#3E2720;display:inline-block;}
+a:visited {text-decoration:none;color:#3E2720;display:inline-block;}
+a:hover {text-decoration:none;color:#003366;}
+
+
+

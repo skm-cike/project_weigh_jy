@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	
+	<description>系统管理配置</description>
+	
+	<!-- 系统用户管理 -->
+	<bean id="sysUserDao" class="com.est.sysinit.sysuser.dao.SysUserDaoImp" parent="baseDao">
+		<description>系统用户Dao</description>
+	</bean>
+	<bean id="sysUserService" class="com.est.sysinit.sysuser.service.SysUserServiceImp">
+		<description>系统用户Service</description>
+		<property name="sysUserDao" ref="sysUserDao"></property>
+		<property name="sysDeptDao" ref="sysDeptDao"></property>
+		<property name="sysUserModuleDao" ref="sysUserModuleDao"></property>
+	</bean>
+	
+	
+	<!-- 系统日志 -->
+	<bean id="sysLogDao" class="com.est.sysinit.syslog.dao.SysLogDaoImp" parent="baseDao">
+		<description>系统日志Dao</description>
+	</bean>
+	<bean id="sysLogService" class="com.est.sysinit.syslog.service.SysLogServiceImp">
+		<description>系统日志Service</description>
+		<property name="sysLogDao" ref="sysLogDao"></property>
+	</bean>
+	
+	<!-- 系统部门管理 -->
+	<bean id="sysDeptDao" class="com.est.sysinit.sysdept.dao.SysUserDeptDaoImp" parent="baseDao">
+		<description>系统部门Dao</description>
+	</bean>
+	<bean id="sysDeptService" class="com.est.sysinit.sysdept.service.SysDeptServiceImp" >
+		<description>系统部门Service</description>
+		<property name="sysDeptDao" ref="sysDeptDao"></property>
+		<property name="sysUserDao" ref="sysUserDao"></property>
+	</bean>
+
+	<!-- 系统部门管理 -->
+	<bean id="sysModuleDao" class="com.est.sysinit.sysmodule.dao.SysModuleDaoImp" parent="baseDao">
+		<description>系统模块Dao</description>
+	</bean>
+	<bean id="sysModuleService" class="com.est.sysinit.sysmodule.service.SysModuleServiceImp">
+		<description>系统模块Service</description>
+		<property name="sysModuleDao" ref="sysModuleDao"></property>
+	</bean>
+
+	<bean id="sysModulefieldDao" class="com.est.sysinit.sysmodule.dao.SysModulefieldDaoImp" parent="baseDao">
+		<description>系统模块字段Dao</description>
+	</bean>
+	<bean id="sysModulefieldService" class="com.est.sysinit.sysmodule.service.SysModulefieldServiceImp">
+		<description>系统模块Service</description>
+		<property name="sysModulefieldDao" ref="sysModulefieldDao"></property>
+	</bean>
+		
+	<!-- 部门权限管理 -->
+	<bean id="sysDeptModuleDao" class="com.est.sysinit.sysauthority.dao.SysDeptModuleDaoImp" parent="baseDao">
+		<description>部门权限Dao</description>
+	</bean>
+	<bean id="deptModuleService" class="com.est.sysinit.sysauthority.service.SysDeptModuleServiceImp">
+		<description>部门权限Service</description>
+		<property name="sysDeptModuleDao" ref="sysDeptModuleDao"></property>
+	</bean>
+	
+	<!-- 用户权限管理 -->
+	<bean id="sysUserModuleDao" class="com.est.sysinit.sysauthority.dao.SysUserModuleDaoImp" parent="baseDao">
+		<description>用户权限Dao</description>
+	</bean>
+	<bean id="userModuleService" class="com.est.sysinit.sysauthority.service.SysUserModuleServiceImp">
+		<description>用户权限Service</description>
+		<property name="sysUserModuleDao" ref="sysUserModuleDao"></property>
+		<property name="sysModuleDao" ref="sysModuleDao"></property>
+	</bean>
+	
+	<!-- 用户信息修改 -->
+	<bean id="sysUserModifyDao" class="com.est.sysinit.sysuser.dao.SysUserModifyDaoImp" parent="baseDao">
+		<description>用户信息修改Dao</description>
+	</bean>
+	<bean id="sysUserModifyService" class="com.est.sysinit.sysuser.service.SysUserModifyServiceImp">
+		<description>用户信息修改Service</description>
+		<property name="sysUserModifyDao" ref="sysUserModifyDao"/>
+	</bean>
+	
+	
+	<!-- 用户权限组管理 -->
+	<bean id="sysGroupDao" class="com.est.sysinit.sysgroup.dao.SysGroupDaoImp" parent="baseDao">
+		<description>权限组Dao</description>
+	</bean>
+	<bean id="sysGroupService" class="com.est.sysinit.sysgroup.service.SysGroupServiceImp">
+		<description>权限组Service</description>
+		<property name="sysGroupDao" ref="sysGroupDao"></property>
+	</bean>
+	<!-- 用户权限组授权管理 by zhanglk -->
+	<bean id="sysGroupuserDao" class="com.est.sysinit.sysgroup.dao.SysGroupuserDaoImp" parent="baseDao">
+		<description>授权Dao</description>
+	</bean>
+	<bean id="sysGroupuserService" class="com.est.sysinit.sysgroup.service.SysGroupuserServiceImp">
+		<description>授权Service</description>
+		<property name="sysGroupuserDao" ref="sysGroupuserDao"></property>
+	</bean>
+	<!-- 属性配置管理 -->
+	<bean id="sysPropertyDao" class="com.est.sysinit.sysproperty.dao.SysPropertyDaoImp" parent="baseDao">
+		<description>属性配置Dao</description>
+	</bean>
+	<bean id="sysPropertyService" class="com.est.sysinit.sysproperty.service.SysPropertyServiceImp">
+		<description>属性配置Service</description>
+		<property name="sysPropertyDao" ref="sysPropertyDao"></property>
+	</bean>
+	
+	<!-- ==========模板管理 开始 by zhanglk========= -->
+	<!-- 模板类别-->
+	
+	<bean id="sysDirDao" class="com.est.sysinit.sysfilemanage.dao.SysDirDaoImp" parent="baseDao">
+		<description>目录管理Dao</description>
+	</bean>
+	<bean id="sysDirService" class="com.est.sysinit.sysfilemanage.service.SysDirServiceImp">
+		<description>目录管理Service</description>
+		<property name="sysDirDao" ref="sysDirDao"></property>
+	</bean>
+	
+	<!--模板管理 -->
+	<bean id="sysTemplateDao" class="com.est.sysinit.sysfilemanage.dao.SysTemplateDaoImp" parent="baseDao">
+		<description>模板Dao</description>
+	</bean>
+	<bean id="sysTemplateService" class="com.est.sysinit.sysfilemanage.service.SysTemplateServiceImp">
+		<description>模板管理Service</description>
+		<property name="sysTemplateDao" ref="sysTemplateDao"></property>
+	</bean>
+	<bean id="sysTemplateFunctionDao" class="com.est.sysinit.sysfilemanage.dao.SysTemplateFunctionDaoImp" parent="baseDao">
+		<description>模板函数Dao</description>
+	</bean>
+	<bean id="sysTemplateFunctionService" class="com.est.sysinit.sysfilemanage.service.SysTemplateFunctionServiceImp">
+		<description>模板函数Service</description>
+		<property name="sysTemplateFunctionDao" ref="sysTemplateFunctionDao"></property>
+		<property name="sysTemplateparamService" ref="sysTemplateparamService"></property>
+	</bean>
+	<bean id="sysTemplateparamDao" class="com.est.sysinit.sysfilemanage.dao.SysTemplateparamDaoImp" parent="baseDao">
+		<description>模板参数Dao</description>
+	</bean>
+	<bean id="sysTemplateparamService" class="com.est.sysinit.sysfilemanage.service.SysTemplateparamServiceImp">
+		<description>模板参数Service</description>
+		<property name="sysTemplateparamDao" ref="sysTemplateparamDao"></property>
+	</bean>
+	
+
+	
+	<bean id="sysFileInfoDao" class="com.est.sysinit.sysfilemanage.dao.SysFileInfoDaoImp" parent="baseDao">
+		<description>文件管理Dao</description>
+	</bean>
+	<bean id="sysFileInfoService" class="com.est.sysinit.sysfilemanage.service.SysFileInfoServiceImp">
+		<description>文件管理Service</description>
+		<property name="sysFileInfoDao" ref="sysFileInfoDao"></property>
+		<property name="fileStorePath" ref="fileStorePath"></property>
+		<property name="sysTemplateService" ref="sysTemplateService"></property>
+	</bean>	
+	
+	<!-- ==========模板管理 结束 by zhanglk========= -->
+	
+	
+	<!-- 文件上传设置 开始-->
+	<bean id="fileUploadService" class="com.est.sysinit.file.service.FileUploadServiceImp">
+		<description>文件上传Service</description>
+	</bean>
+	<bean id="fileStorePath" class="java.lang.String">
+		<description>文件存放路径</description>
+		<constructor-arg>
+			<value>d:/UPLOAD/</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 文件上传设置  结束-->
+	
+	
+	
+	<!-- 门户管理 -->
+	<bean id="portalcommonDao" class="com.est.sysinit.portal.dao.PortalCommonDaoImp" parent="baseDao">
+		<description>门户管理Dao</description>
+	</bean>
+
+    <!-- 文件上传下载 -->
+    <bean id="sysNormalFileDao" class="com.est.sysinit.sysfilemanage.dao.SysNormalFileDaoImp" parent="baseDao">
+        <description>文件上传下载Dao</description>
+    </bean>
+    <bean id="sysNormalFileService" class="com.est.sysinit.sysfilemanage.service.SysNormalFileServiceImp">
+        <description>文件上传下载service</description>
+        <property name="normalFileDao" ref="sysNormalFileDao"></property>
+    </bean>
+	
+	
+		<!-- 门户中，缺陷统计及图表展示 add by tanhf
+	<bean id="portalService" parent="txProxyTemplate">
+	 	<description>门户管理Serivce</description>
+	 	<property name="target">
+	 		<bean class="com.est.sysinit.portal.service.FaultPortalServiceImp">
+	 			<property name="portalcommonDao" ref="portalcommonDao"></property>
+	 		</bean>
+	 	</property>
+	</bean>
+	 -->
+	
+	<!-- 门户管理 end-->
+</beans>

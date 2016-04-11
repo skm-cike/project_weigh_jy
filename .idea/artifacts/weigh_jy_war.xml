@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="weigh_jy:war">
+    <output-path>$PROJECT_DIR$/weigh_jy/target</output-path>
+    <root id="archive" name="weigh_jy.war">
+      <element id="artifact" artifact-name="weigh_jy:war exploded" />
+    </root>
+  </artifact>
+</component>

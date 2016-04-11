@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+    <constant name="struts.multipart.maxSize" value="209715200"/>
+	<constant name="struts.multipart.saveDir" value="d:/"></constant>
+	<constant name="struts.devMode" value="false" />
+	<!-- Add packages here  
+		<include file="struts-*.xml" />
+	-->
+
+	<package name="default" extends="struts-default">
+		<result-types>
+			<result-type name="str"
+				class="com.est.common.resulttype.StringResultType">
+			</result-type>
+			<result-type name="json"
+				class="com.est.common.resulttype.JsonResultType">
+			</result-type>
+			<result-type name="file"
+				class="com.est.common.resulttype.FileResultType">
+			</result-type>
+			<result-type name="notLogin" 
+				class="com.est.common.resulttype.NotLoginResultType">
+			</result-type>
+			<result-type name="exception" class="com.est.common.resulttype.ExceptionResultType"></result-type>
+		</result-types>
+		<interceptors>
+			<interceptor name="chkLogin" class="com.est.common.interceptor.ChkLoginInterceptor"></interceptor>
+			<interceptor name="exceptionHandle" class="com.est.common.interceptor.ExceptionInterceptor"></interceptor>
+			<interceptor name="noNullParameters" class="com.est.common.interceptor.NoNullParametersIntercepter"></interceptor>
+			
+			
+			<interceptor-stack name="estInterceptor">
+				
+				<interceptor-ref name="chkLogin"></interceptor-ref>
+				<!-- <interceptor-ref name="defaultStack"></interceptor-ref> -->
+				<interceptor-ref name="exceptionHandle" />
+				<interceptor-ref name="alias" />
+				<interceptor-ref name="servletConfig" />
+				<!-- 
+					<interceptor-ref name="prepare" />
+					<interceptor-ref name="i18n" />
+				-->
+				<interceptor-ref name="chain" />
+				<interceptor-ref name="debugging" />
+				<interceptor-ref name="profiling" />
+				<interceptor-ref name="scopedModelDriven" />
+				<interceptor-ref name="modelDriven" />
+				
+				<interceptor-ref name="fileUpload" />
+				<interceptor-ref name="checkbox" />
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*</param>
+				</interceptor-ref>
+				<!-- <interceptor-ref name="noNullParameters"/> -->
+				<interceptor-ref name="conversionError" />
+				<!-- 
+					<interceptor-ref name="validation">
+					<param name="excludeMethods">
+					input,back,cancel,browse
+					</param>
+					</interceptor-ref>
+					<interceptor-ref name="workflow">
+					<param name="excludeMethods">
+					input,back,cancel,browse
+					</param>
+					</interceptor-ref>
+				-->
+			</interceptor-stack>
+		</interceptors>
+		<!-- 
+		<global-results>
+			<result name="exception">/WEB-INF/tpl/error.ftl</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="exception" />
+		</global-exception-mappings>
+		 -->
+	</package>
+
+
+	<package name="public" namespace="/est" extends="default" >
+		<default-interceptor-ref name="estInterceptor" />
+		<action name="*/*/*/*" method="{4}"
+			class="com.est.{1}.{2}.action.{3}Action">
+			<interceptor-ref name="estInterceptor" />
+			<result name="tpl" type="freemarker">
+				/WEB-INF/tpl/{1}/{2}/${target}.ftl
+			</result>
+			<result name="jsp">/WEB-INF/page/{1}/{2}/${target}.jsp</result>
+			<result name="html">
+				/WEB-INF/page/{1}/{2}/${target}.html
+			</result>
+			<result name="input" type="freemarker">
+				/WEB-INF/tpl/input.ftl
+			</result>
+			<result name="index" type="redirect">
+				/
+			</result>
+			
+			<result name="str" type="str">str</result>
+			<result name="exception" type="exception"></result>
+			
+			<result name="json" type="json">
+				<param name="type">jsonType</param>
+				<param name="value">jsonValue</param>
+			</result>
+			<result name="notLogin" type="notLogin">
+			</result>
+			
+			<result name="file" type="file">
+				<param name="filename">filename</param>
+				<param name="content">content</param>
+				<param name="filetype">filetype</param>
+			</result>
+			<result name="toLogin" type="redirect">
+				/
+			</result>
+			
+			<result name="chart">/WEB-INF/page/sysinit/chart/fusionchart_show.jsp</result>
+		</action>
+	</package>
+	
+</struts>
